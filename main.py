@@ -40,9 +40,9 @@ async def upload_video(file: UploadFile = File(...), interval: int = 1):
         vector = compute_color_histogram(frame_path)
         add_vector_to_db(frame_path, vector, idx)
 
-        if idx == 0:  # ✅ Print vector only for first frame
+        if idx == 0:  
             print("Sample vector for testing:")
-            print(json.dumps(vector))  # full vector or use vector[:10] for short preview
+            print(json.dumps(vector)) 
 
     return {"message": "Video processed", "frames_extracted": len(frame_paths)}
 

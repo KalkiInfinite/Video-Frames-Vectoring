@@ -24,7 +24,7 @@ def search_vectors(query_vector: list, top_k: int, collection_name="frames"):
         collection_name=collection_name,
         query_vector=query_vector,
         limit=top_k,
-        with_vectors=True  # <-- This is essential to return the actual vectors
+        with_vectors=True  
     )
 
     output = []
@@ -32,7 +32,7 @@ def search_vectors(query_vector: list, top_k: int, collection_name="frames"):
         output.append({
             "score": r.score,
             "image_path": r.payload["image_path"],
-            "vector": r.vector if r.vector is not None else []  # fallback to empty list
+            "vector": r.vector if r.vector is not None else []  
         })
 
     return output

@@ -2,7 +2,6 @@ import cv2
 import os
 from config import FRAME_INTERVAL, TEMP_DIR, FRAME_DIR, QDRANT_COLLECTION_NAME
 
-
 def extract_frames(video_path: str, interval: int) -> list:
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS)

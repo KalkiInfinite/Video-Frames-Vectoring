@@ -110,9 +110,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
-# Sidebar with additional info
-# Sidebar with additional info
 with st.sidebar:
     st.markdown("### Configuration")
 
@@ -138,7 +135,6 @@ with st.sidebar:
     - Color similarity is used for matching  
     """)
 
-# Main header
 st.markdown("""
 <div class="main-header">
     <h1>Video-to-Image Similarity Search</h1>
@@ -175,15 +171,12 @@ with col1:
             frame_paths = extract_frames(temp_video_path, FRAME_INTERVAL)
             st.session_state["frame_paths"] = frame_paths  # Save to session
 
-
-            # Add progress bar
             progress_bar = st.progress(0)
             for idx, frame_path in enumerate(frame_paths):
                 vector = compute_color_histogram(frame_path)
                 add_vector_to_db(frame_path, vector, idx)
                 progress_bar.progress((idx + 1) / len(frame_paths))
 
-        # Success metrics
         col_metric1, col_metric2, col_metric3 = st.columns(3)
         with col_metric1:
             st.metric("Frames Extracted", len(frame_paths))
@@ -194,10 +187,8 @@ with col1:
 
         st.success("Video processed successfully!")
         
-        # Display frames in a nice grid
         st.subheader("Extracted Frames Preview")
-        
-        # Create columns for frame display
+
         frames_per_row = 4
         for i in range(0, len(frame_paths), frames_per_row):
             frame_cols = st.columns(frames_per_row)
@@ -218,7 +209,6 @@ with col1:
                         )
 
 with col2:
-    # --- Upload Image for Search Section ---
     st.markdown("""
     <div class="section-header">
         <h2>Step 2: Search Similar Frames</h2>
@@ -237,20 +227,17 @@ with col2:
     if search_image is not None:
         img = Image.open(search_image).convert("RGB")
         
-        # Display query image with nice styling
         st.markdown("### Query Image")
         query_col1, query_col2, query_col3 = st.columns([1, 2, 1])
         with query_col2:
             st.image(img, caption="Your Search Image", use_container_width=True)
 
-        # Save temporarily & extract vector
         with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
             img.save(tmp.name)
             with st.spinner("Searching for similar frames..."):
                 query_vector = compute_color_histogram(tmp.name)
                 results = search_vectors(query_vector, TOP_K)
 
-        # Results section with beautiful styling
         st.markdown("""
         <div class="results-container">
             <h2 style="color: white; text-align: center; margin-bottom: 2rem;">
@@ -277,8 +264,7 @@ with col2:
                         r["image_path"], 
                         use_container_width=True
                     )
-                    
-                    # Score with color coding
+
                     score = r['score']
                     if score > 0.8:
                         score_color = "#4CAF50"  # Green
@@ -298,7 +284,6 @@ with col2:
         else:
             st.warning("No similar frames found. Try uploading a different image.")
 
-# Footer with app information
 st.markdown("---")
 st.markdown("""
 <div class="info-box">
